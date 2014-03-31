@@ -1,0 +1,16 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd">
+    <metadata>
+        <id>Aga.Controls</id>
+        <version>0.1.0.0</version>
+        <title>Aga.Controls</title>
+        <authors>@BatCatGames</authors>
+        <projectUrl>https://github.com/BraveSirAndrew/treeviewadv.git</projectUrl>
+        <requireLicenseAcceptance>false</requireLicenseAcceptance>
+        <description>Forked from http://sourceforge.net/projects/treeviewadv/</description>
+        <language>en-IE</language>
+    </metadata>
+    <files>
+        <file src="Aga.Controls\bin\Release\Aga.Controls.dll" target="lib\net40\Aga.Controls.dll" />
+    </files>
+</package>
