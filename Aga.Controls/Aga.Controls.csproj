@@ -211,14 +211,14 @@
     <Service Include="{B4F97281-0DBD-4835-9ED8-7DFB966E87FF}" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="key.snk" />
-    <Content Include="Resources\minus.bmp" />
-    <Content Include="Resources\plus.bmp" />
-    <Content Include="Resources\check.bmp" />
-    <Content Include="Resources\uncheck.bmp" />
-    <Content Include="Resources\Leaf.bmp" />
-    <Content Include="Resources\Folder.bmp" />
-    <Content Include="Resources\FolderClosed.bmp" />
+    <None Include="key.snk" />
+    <None Include="Resources\minus.bmp" />
+    <None Include="Resources\plus.bmp" />
+    <None Include="Resources\check.bmp" />
+    <None Include="Resources\uncheck.bmp" />
+    <None Include="Resources\Leaf.bmp" />
+    <None Include="Resources\Folder.bmp" />
+    <None Include="Resources\FolderClosed.bmp" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Properties\Resources.resx">
@@ -231,14 +231,14 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Resources\loading_icon" />
+    <None Include="Resources\loading_icon" />
     <None Include="Migrated rules for Aga.Controls.ruleset" />
     <None Include="Tree\ClassDiagram.cd" />
     <None Include="Tree\NodeControls\ClassDiagram.cd" />
-    <Content Include="Resources\unknown.bmp" />
+    <None Include="Resources\unknown.bmp" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Resources\DVSplit.cur" />
+    <None Include="Resources\DVSplit.cur" />
   </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include="Microsoft.Net.Client.3.5">
