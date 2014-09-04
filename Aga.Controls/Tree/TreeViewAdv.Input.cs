@@ -454,11 +454,14 @@ namespace Aga.Controls.Tree
 		private void DragAutoScroll()
 		{
 			_dragAutoScrollFlag = false;
-			Point pt = PointToClient(MousePosition);
-			if (pt.Y < 20 && _vScrollBar.Value > 0)
-				_vScrollBar.Value--;
-			else if (pt.Y > Height - 20 && _vScrollBar.Value <= _vScrollBar.Maximum - _vScrollBar.LargeChange)
-				_vScrollBar.Value++;
+			if (_vScrollBar.Minimum != _vScrollBar.Maximum)
+			{
+				Point pt = PointToClient(MousePosition);
+				if (pt.Y < 20 && _vScrollBar.Value > 0)
+					_vScrollBar.Value--;
+				else if (pt.Y > Height - 20 && _vScrollBar.Value <= _vScrollBar.Maximum - _vScrollBar.LargeChange)
+					_vScrollBar.Value++;
+			}
 		}
 
 		public void DoDragDropSelectedNodes(DragDropEffects allowedEffects)
