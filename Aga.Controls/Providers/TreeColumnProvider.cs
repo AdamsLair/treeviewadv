@@ -11,7 +11,14 @@ namespace Aga.Controls.Providers
 {
     public class TreeColumnProvider : BaseFragmentProvider, IRawElementProviderFragmentRoot, IValueProvider
     {
-        // We know the Bar's parent is always the fragment root in this sample.
+        #region Fields
+
+        private readonly TreeViewAdv _control;
+        private readonly int _idxColumn;
+        private readonly TreeColumn _column;
+
+        #endregion
+
         public TreeColumnProvider(TreeViewAdv control, IRawElementProviderFragmentRoot root, int idxColumn)
             : base(root, root)
         {
@@ -22,34 +29,33 @@ namespace Aga.Controls.Providers
             var strName = _column.Header;
             var automationPropertyId = Regex.Replace(strName, @"[^0-9a-zA-Z]+", "");
 
-            // Populate static properties
-            //
-            // In a production app, Name should be localized
             AddStaticProperty(UiaConstants.UIA_NamePropertyId, strName);
             AddStaticProperty(UiaConstants.UIA_ControlTypePropertyId, UiaConstants.UIA_CustomControlTypeId);
-
-            // In a production app, LocalizedControlType should be localized
             AddStaticProperty(UiaConstants.UIA_LocalizedControlTypePropertyId, "TreeNodeColumn");
             AddStaticProperty(UiaConstants.UIA_ProviderDescriptionPropertyId, "Treenode in the tree, FTW!");
-
-            // The automation id should be unique amongst the fragments siblings, and consistent between sessions.
             AddStaticProperty(UiaConstants.UIA_AutomationIdPropertyId, "TreeNode.Column_" + automationPropertyId);
-
             AddStaticProperty(UiaConstants.UIA_IsKeyboardFocusablePropertyId, false);
             AddStaticProperty(UiaConstants.UIA_IsControlElementPropertyId, true);
             AddStaticProperty(UiaConstants.UIA_IsContentElementPropertyId, false);
         }
 
+        /// <summary>
+        /// Returns provider options
+        /// </summary>
         public override ProviderOptions ProviderOptions
         {
-            // Request COM threading style - all calls on main thread
             get
             {
-                return (ProviderOptions)((int)(ProviderOptions.ServerSideProvider |
-                                               ProviderOptions.UseComThreading));
+                return (ProviderOptions) ((int) (ProviderOptions.ServerSideProvider |
+                                                 ProviderOptions.UseComThreading));
             }
         }
 
+        /// <summary>
+        /// Gets Pattern provider from <paramref name="patternId" />
+        /// </summary>
+        /// <param name="patternId">PatternId</param>
+        /// <returns>self</returns>
         public override object GetPatternProvider(int patternId)
         {
             if (patternId == UiaConstants.UIA_ValuePatternId)
@@ -60,10 +66,14 @@ namespace Aga.Controls.Providers
             return base.GetPatternProvider(patternId);
         }
 
-        // Create a runtime ID. The runtime id should be unique on the entire desktop, for the lifetime of the fragment.
+        /// <summary>
+        /// Create a runtime ID. The runtime id should be unique on the entire desktop, 
+        /// for the lifetime of the fragment.
+        /// </summary>
+        /// <returns></returns>
         public override int[] GetRuntimeId()
         {
-            int[] runtimeId = new int[2];
+            var runtimeId = new int[2];
 
             runtimeId[0] = UiaConstants.AppendRuntimeId;
             runtimeId[1] = _idxColumn;
@@ -71,37 +81,45 @@ namespace Aga.Controls.Providers
             return runtimeId;
         }
 
-        // Get the bounding rect by consulting the control.
+        /// <summary>
+        /// Get the bounding rect by consulting the control.
+        /// </summary>
         public override Rect BoundingRectangle
         {
             get
             {
                 var left = _control.Columns.Take(_idxColumn).Sum(c => c.Width);
-                //var size = _column.GetActualSize(new DrawContext());
-                // Bounding rects must be in screen coordinates
-                var screenRect = _control.RectangleToScreen(new Rectangle(left, 0, _column.Width, _control.ColumnHeaderHeight));
-
+                var screenRect =
+                    _control.RectangleToScreen(new Rectangle(left, 0, _column.Width, _control.ColumnHeaderHeight));
                 var margin = _control.Margin;
-                
-                var result = new Rect(screenRect.Left- margin.Left, screenRect.Top, screenRect.Width, screenRect.Height);
-
-                return result;
+                return new Rect(screenRect.Left - margin.Left, screenRect.Top, screenRect.Width, screenRect.Height);
             }
         }
 
+        /// <summary>
+        /// Return first child.
+        /// </summary>
+        /// <returns>First direct child</returns>
         protected override IRawElementProviderFragment GetFirstChild()
         {
             return null;
         }
 
+        /// <summary>
+        /// Returns last child.
+        /// </summary>
+        /// <returns>last child node</returns>
         protected override IRawElementProviderFragment GetLastChild()
         {
             return null;
         }
 
+        /// <summary>
+        /// Return next nodeat the same level of this node.
+        /// </summary>
+        /// <returns>Nest sibling node</returns>
         protected override IRawElementProviderFragment GetNextSibling()
         {
-            // Return the fragment for the next bar in the chart.
             if (_idxColumn < _control.Columns.Count - 1)
             {
                 return new TreeColumnProvider(_control, this, _idxColumn + 1);
@@ -110,9 +128,12 @@ namespace Aga.Controls.Providers
             return null;
         }
 
+        /// <summary>
+        /// Gets the preceeding node at the same level.
+        /// </summary>
+        /// <returns>Preceeding node.</returns>
         protected override IRawElementProviderFragment GetPreviousSibling()
         {
-            // Return the fragment for the previous bar in the chart.
             if (_idxColumn > 0)
             {
                 return new TreeColumnProvider(_control, this, _idxColumn - 1);
@@ -121,41 +142,48 @@ namespace Aga.Controls.Providers
             return null;
         }
 
-        // IValuePattern members.
-        public int IsReadOnly
-        {
-            get { return 1; }
-        }
-
+        /// <summary>
+        /// Value of the node
+        /// </summary>
         public string Value
         {
-            get { return _column.Header;  }
+            get { return _column.Header; }
         }
 
+        /// <summary>
+        /// Header is always readonly
+        /// </summary>
         bool IValueProvider.IsReadOnly
         {
             get { return true; }
         }
 
+        /// <summary>
+        /// sets the value of the node
+        /// </summary>
+        /// <param name="value">value to set</param>
         public void SetValue(string value)
         {
             throw new InvalidOperationException("Header value is read-only.");
         }
 
-        #region Fields
 
-        private readonly TreeViewAdv _control;
-        private readonly int _idxColumn;
-        private readonly TreeColumn _column;
-
-        #endregion
-
+        /// <summary>
+        /// Returns element provider from clicked point in the application.
+        /// </summary>
+        /// <param name="x">x-coordinate</param>
+        /// <param name="y">y-coordinate</param>
+        /// <returns>Provider to do some magic</returns>
         public IRawElementProviderFragment ElementProviderFromPoint(double x, double y)
         {
             var node = _control.GetNodeAt(new System.Drawing.Point((int) x, (int) y));
             return new TreeColumnProvider(_control, this, node.Index);
         }
 
+        /// <summary>
+        /// Gets the element with current keyboard focus.
+        /// </summary>
+        /// <returns>focused node</returns>
         public IRawElementProviderFragment GetFocus()
         {
             if (_control.Columns != null && _control.Columns.Any(n => n.IsVisible))
@@ -165,6 +193,10 @@ namespace Aga.Controls.Providers
             return null;
         }
 
+
+        /// <summary>
+        /// Get raw element provider from window handle.
+        /// </summary>
         public override IRawElementProviderSimple HostRawElementProvider
         {
             get

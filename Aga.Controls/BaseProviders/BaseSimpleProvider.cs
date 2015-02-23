@@ -16,21 +16,15 @@ namespace Aga.Controls.BaseProviders
 
         public virtual object GetPropertyValue(int propertyId)
         {
-            // Check the static props list first
             if (_staticProps.ContainsKey(propertyId))
             {
                 return _staticProps[propertyId];
             }
 
-            // Switching construct to go get the right property from a virtual method.
             if (propertyId == UiaConstants.UIA_NamePropertyId)
             {
                 return GetName();
             }
-
-            // Add further cases here to support more properties.
-            // Do note that it may be more efficient to handle static properties
-            // by adding them to the static props list instead of using methods.
 
             return null;
         }
@@ -60,13 +54,11 @@ namespace Aga.Controls.BaseProviders
 
         #region Protected overrides
 
-        // Get the window handle for a provider that is a full HWND
         protected virtual IntPtr GetWindowHandle()
         {
             return IntPtr.Zero;
         }
 
-        // Get the localized name for this control
         protected virtual string GetName()
         {
             return null;
