@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Windows;
 using System.Windows.Automation.Provider;
 using Aga.Controls.BaseProviders;
@@ -55,9 +57,18 @@ namespace Aga.Controls.Providers
 
         public override Rect BoundingRectangle
         {
-            get { return new Rect(_treeViewAdv.Top, _treeViewAdv.Left, _treeViewAdv.Width, _treeViewAdv.Height); }
-        }
+            get
+            {
+                var screenRect = _treeViewAdv.RectangleToScreen(_treeViewAdv.DisplayRectangle);
+                
+                var m = _treeViewAdv.Margin;
+                var offsetTop = _treeViewAdv.ColumnHeaderHeight;
+                var offsetLeft = m.Left / 2;
 
+                return new Rect(screenRect.Left, screenRect.Top, screenRect.Width, screenRect.Height);
+            }
+        }
+    
         protected override IRawElementProviderFragment GetFirstChild()
         {
             // Return the first child, which is the first bar in the chart.
@@ -94,8 +105,26 @@ namespace Aga.Controls.Providers
 
                 return treeNodeAdvProvider;
             }
+            // column header
 
-            return null;
+            //return parent
+            return _treeViewAdv == null ? null : new TreeViewAdvProvider(_treeViewAdv);
+        }
+
+        protected override IEnumerable<IRawElementProviderFragment> GetChildren()
+        {
+            if (_treeViewAdv.Root.Children.Any())
+            {
+                foreach (var child in _treeViewAdv.Root.Children)
+                {
+                    yield return new TreeNodeAdvProvider(_treeViewAdv, this, child.Row);
+                }
+            }
+        }
+
+        protected override int GetChildCount()
+        {
+            return _treeViewAdv.Root.Children.Any() ? _treeViewAdv.Root.Children.Count : 0;
         }
 
         #region Fields

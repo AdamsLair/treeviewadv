@@ -2,6 +2,7 @@ using System;
 using System.Drawing;
 using System.Diagnostics;
 using System.Drawing.Drawing2D;
+using System.Linq;
 using System.Windows.Forms;
 using Aga.Controls.Tree.NodeControls;
 
@@ -14,22 +15,21 @@ namespace Aga.Controls.Tree
 			if (!Columns.Contains(column))
 				throw new ArgumentException("column");
 
-			DrawContext context = new DrawContext();
-			context.Graphics = Graphics.FromImage(new Bitmap(1, 1));
-			context.Font = this.Font;
-			int res = 0;
-			for (int row = 0; row < RowCount; row++)
+		    var context = new DrawContext
+		    {
+		        Graphics = Graphics.FromImage(new Bitmap(1, 1)), 
+                Font = Font
+		    };
+		    var res = 0;
+			for (var row = 0; row < RowCount; row++)
 			{
 				if (row < RowMap.Count)
 				{
-					int w = 0;
-					TreeNodeAdv node = RowMap[row];
-					foreach (NodeControl nc in NodeControls)
-					{
-						if (nc.ParentColumn == column)
-							w += nc.GetActualSize(node, _measureContext).Width;
-					}
-					res = Math.Max(res, w);
+				    var node = RowMap[row];
+				    var w = NodeControls
+                        .Where(nc => nc.ParentColumn == column)
+                        .Sum(nc => nc.GetActualSize(node, _measureContext).Width);
+				    res = Math.Max(res, w);
 				}
 			}
 
@@ -45,20 +45,16 @@ namespace Aga.Controls.Tree
 
 		private void CreateMarkPen()
 		{
-			GraphicsPath path = new GraphicsPath();
-			path.AddLines(new Point[] { new Point(0, 0), new Point(1, 1), new Point(-1, 1), new Point(0, 0) });
-			CustomLineCap cap = new CustomLineCap(null, path);
-			cap.WidthScale = 1.0f;
+			var path = new GraphicsPath();
+			path.AddLines(new [] { new Point(0, 0), new Point(1, 1), new Point(-1, 1), new Point(0, 0) });
+		    var cap = new CustomLineCap(null, path) {WidthScale = 1.0f};
 
-			_markPen = new Pen(_dragDropMarkColor, _dragDropMarkWidth);
-			_markPen.CustomStartCap = cap;
-			_markPen.CustomEndCap = cap;
+		    _markPen = new Pen(_dragDropMarkColor, _dragDropMarkWidth) {CustomStartCap = cap, CustomEndCap = cap};
 		}
 
 		private void CreateLinePen()
 		{
-			_linePen = new Pen(_lineColor);
-			_linePen.DashStyle = DashStyle.Dot;
+		    _linePen = new Pen(_lineColor) {DashStyle = DashStyle.Dot};
 		}
 
         protected override void OnPaint(PaintEventArgs e)
@@ -66,13 +62,10 @@ namespace Aga.Controls.Tree
             BeginPerformanceCount();
 			PerformanceAnalyzer.Start("OnPaint");
 
-            DrawContext context = new DrawContext();
-            context.Graphics = e.Graphics;
-            context.Font = this.Font;
-            context.Enabled = Enabled;
+            var context = new DrawContext {Graphics = e.Graphics, Font = this.Font, Enabled = Enabled};
 
-            int y = 0;
-            int gridHeight = 0;
+            var y = 0;
+            var gridHeight = 0;
 
             if (UseColumns)
             {

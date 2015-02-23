@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
 using System.Windows;
@@ -9,18 +8,20 @@ using Aga.Controls.Tree;
 
 namespace Aga.Controls.Providers
 {
-    public class TreeNodeAdvProvider : BaseFragmentProvider, IRawElementProviderFragmentRoot, IValueProvider
+    public class TreeColumnProvider : BaseFragmentProvider, IRawElementProviderFragmentRoot, IValueProvider
     {
         // We know the Bar's parent is always the fragment root in this sample.
-        public TreeNodeAdvProvider(TreeViewAdv control, IRawElementProviderFragmentRoot root, int idxRow)
+        public TreeColumnProvider(TreeViewAdv control, IRawElementProviderFragmentRoot root, int idxRow, int idxColumn)
             : base(root, root)
         {
             this._control = control;
             _idxRow = idxRow;
+            _idxColumn = idxColumn;
             _node = control.RowMap.ElementAt(idxRow);
+            _column = _control.Columns[idxColumn];
 
             var strName = _node.Tag.ToString();
-            var automationPrpertyId = Regex.Replace(strName, @"[^0-9a-zA-Z]+", "");
+            var automationPropertyId = Regex.Replace(strName, @"[^0-9a-zA-Z]+", "");
 
             // Populate static properties
             //
@@ -29,11 +30,11 @@ namespace Aga.Controls.Providers
             AddStaticProperty(UiaConstants.UIA_ControlTypePropertyId, UiaConstants.UIA_CustomControlTypeId);
 
             // In a production app, LocalizedControlType should be localized
-            AddStaticProperty(UiaConstants.UIA_LocalizedControlTypePropertyId, "TreeNode");
+            AddStaticProperty(UiaConstants.UIA_LocalizedControlTypePropertyId, "TreeNodeColumn");
             AddStaticProperty(UiaConstants.UIA_ProviderDescriptionPropertyId, "Treenode in the tree, FTW!");
 
             // The automation id should be unique amongst the fragments siblings, and consistent between sessions.
-            AddStaticProperty(UiaConstants.UIA_AutomationIdPropertyId, "TreeNode_" + automationPrpertyId);
+            AddStaticProperty(UiaConstants.UIA_AutomationIdPropertyId, "TreeNode.Column_" + automationPropertyId);
 
             AddStaticProperty(UiaConstants.UIA_IsKeyboardFocusablePropertyId, false);
             AddStaticProperty(UiaConstants.UIA_IsControlElementPropertyId, true);
@@ -78,12 +79,18 @@ namespace Aga.Controls.Providers
             {
                 // Bounding rects must be in screen coordinates
                 var screenRect = _control.RectangleToScreen(_control.GetNodeBounds(_node));
-                
-                var m = _control.Margin;
-                var offsetTop =  _control.ColumnHeaderHeight;
-                var offsetLeft = m.Left/2;
+                var offsetTop = _control.ColumnHeaderHeight;
 
-                return new Rect(screenRect.Left + offsetLeft, screenRect.Top + offsetTop, screenRect.Width, screenRect.Height);
+                var m = _control.Margin;
+                var offsetLeft = _control.DragDropMarkWidth - m.Left;
+                if (_control.Columns.Count > 0)
+                {
+                  offsetLeft += _control.Columns.Where(x => x.Index < _idxColumn).Sum(x => x.Width);   
+                }
+                
+                var result = new Rect(screenRect.Left - offsetLeft, screenRect.Top + offsetTop, screenRect.Width, screenRect.Height);
+
+                return result;
             }
         }
 
@@ -156,13 +163,14 @@ namespace Aga.Controls.Providers
 
         private readonly TreeViewAdv _control;
         private readonly int _idxRow;
+        private readonly int _idxColumn;
         private readonly TreeNodeAdv _node;
+        private readonly TreeColumn _column;
 
         #endregion
 
         public IRawElementProviderFragment ElementProviderFromPoint(double x, double y)
         {
-            //TODO: Hier de column providert ook meenemen
             var node = _control.GetNodeAt(new System.Drawing.Point((int) x, (int) y));
             return new TreeNodeAdvProvider(_control, new TreeViewAdvProvider(_control), node.Index);
         }
@@ -190,22 +198,6 @@ namespace Aga.Controls.Providers
 
                 return null;
             }
-        }
-
-        protected override IEnumerable<IRawElementProviderFragment> GetChildren()
-        {
-            if (_node.Children.Count>0)
-            {
-                foreach (var child in _node.Children)
-                {
-                    yield return new TreeNodeAdvProvider(_control,this, child.Row);
-                }
-            }
-        }
-
-        protected override int GetChildCount()
-        {
-            return _node.Children.Any() ? _node.Children.Count : 0;
         }
     }
 }

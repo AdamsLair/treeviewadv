@@ -23,10 +23,13 @@ namespace Aga.Controls.Tree
 	/// </summary>
 	public partial class TreeViewAdv : Control
 	{
+
 		private const int LeftMargin = 7;
 		internal const int ItemDragSensivity = 4;
 		private const int DividerWidth = 9;
 		private const int DividerCorrectionGap = -2;
+
+        public int MarginLeft { get { return LeftMargin + OffsetX; } }
 
 		private Pen _linePen;
 		private Pen _markPen;

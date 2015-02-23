@@ -72,6 +72,16 @@ namespace Aga.Controls.BaseProviders
             return null;
         }
 
+        protected virtual IEnumerable<IRawElementProviderFragment> GetChildren()
+        {
+            return null;
+        }
+
+        protected virtual int GetChildCount()
+        {
+            return 0;
+        } 
+
         #endregion
 
         #region Other protected methods
