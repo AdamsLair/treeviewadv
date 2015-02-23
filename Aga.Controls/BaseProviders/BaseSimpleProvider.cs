@@ -17,9 +17,9 @@ namespace Aga.Controls.BaseProviders
         public virtual object GetPropertyValue(int propertyId)
         {
             // Check the static props list first
-            if (staticProps.ContainsKey(propertyId))
+            if (_staticProps.ContainsKey(propertyId))
             {
-                return staticProps[propertyId];
+                return _staticProps[propertyId];
             }
 
             // Switching construct to go get the right property from a virtual method.
@@ -35,15 +35,15 @@ namespace Aga.Controls.BaseProviders
             return null;
         }
 
-        public IRawElementProviderSimple HostRawElementProvider
+        public virtual IRawElementProviderSimple HostRawElementProvider
         {
             get
             {
                 var hwnd = GetWindowHandle();
                 if (hwnd != IntPtr.Zero)
                 {
-                    IRawElementProviderSimple hostProvider = null;
-                    NativeMethods.UiaHostProviderFromHwnd(this.GetWindowHandle(), out hostProvider);
+                    IRawElementProviderSimple hostProvider;
+                    NativeMethods.UiaHostProviderFromHwnd(GetWindowHandle(), out hostProvider);
                     return hostProvider;
                 }
 
@@ -78,14 +78,14 @@ namespace Aga.Controls.BaseProviders
 
         protected void AddStaticProperty(int propertyId, object value)
         {
-            this.staticProps.Add(propertyId, value);
+            _staticProps.Add(propertyId, value);
         }
 
         #endregion
 
         #region Fields
 
-        private Dictionary<int, object> staticProps = new Dictionary<int, object>();
+        private readonly Dictionary<int, object> _staticProps = new Dictionary<int, object>();
 
         #endregion
     }

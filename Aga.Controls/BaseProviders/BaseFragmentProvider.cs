@@ -14,9 +14,9 @@ namespace Aga.Controls.BaseProviders
     [System.Runtime.InteropServices.ComVisible(true)]
     public abstract class BaseFragmentProvider : BaseSimpleProvider, IRawElementProviderFragment
     {
-        public BaseFragmentProvider(IRawElementProviderFragment parent, IRawElementProviderFragmentRoot fragmentRoot)
+        protected BaseFragmentProvider(IRawElementProviderFragment parent, IRawElementProviderFragmentRoot fragmentRoot)
         {
-            this.parent = parent;
+            this._parent = parent;
             this.fragmentRoot = fragmentRoot;
         }
 
@@ -38,7 +38,7 @@ namespace Aga.Controls.BaseProviders
 
         // Return any fragment roots embedded within this fragment - uncommon
         // unless this is a fragment hosting another full HWND.
-        public virtual IRawElementProviderFragmentRoot[] GetEmbeddedFragmentRoots()
+        private IRawElementProviderFragmentRoot[] GetEmbeddedFragmentRoots()
         {
             return null;
         }
@@ -52,7 +52,7 @@ namespace Aga.Controls.BaseProviders
         // Don't override, since the constructor requires the fragment root already.
         public IRawElementProviderFragmentRoot FragmentRoot
         {
-            get { return this.fragmentRoot; }
+            get { return fragmentRoot; }
         }
 
         // Routing function for going to neighboring elements.  We implemented
@@ -61,7 +61,7 @@ namespace Aga.Controls.BaseProviders
         {
             switch (direction)
             {
-                case NavigateDirection.Parent: return parent;
+                case NavigateDirection.Parent: return _parent;
                 case NavigateDirection.FirstChild: return GetFirstChild();
                 case NavigateDirection.LastChild: return GetLastChild();
                 case NavigateDirection.NextSibling: return GetNextSibling();
@@ -101,7 +101,7 @@ namespace Aga.Controls.BaseProviders
 
         #region Protected fields
 
-        protected IRawElementProviderFragment parent;
+        private readonly IRawElementProviderFragment _parent;
         protected IRawElementProviderFragmentRoot fragmentRoot;
 
         #endregion
@@ -115,15 +115,15 @@ namespace Aga.Controls.BaseProviders
             }
         }
 
-        public IRawElementProviderSimple HostRawElementProvider
+        public override IRawElementProviderSimple HostRawElementProvider
         {
             get
             {
                 var hwnd = GetWindowHandle();
                 if (hwnd != IntPtr.Zero)
                 {
-                    IRawElementProviderSimple hostProvider = null;
-                    NativeMethods.UiaHostProviderFromHwnd(this.GetWindowHandle(), out hostProvider);
+                    IRawElementProviderSimple hostProvider;
+                    NativeMethods.UiaHostProviderFromHwnd(GetWindowHandle(), out hostProvider);
                     return hostProvider;
                 }
 

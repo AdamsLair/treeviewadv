@@ -11,7 +11,7 @@ namespace Aga.Controls.Providers
     {
         // We know the Bar's parent is always the fragment root in this sample.
         public TreeModelProvider(TreeViewAdv control, IRawElementProviderFragmentRoot root, int idxRow)
-            : base((IRawElementProviderFragment)root /* parent */, root /* fragmentRoot */)
+            : base(root, root )
         {
             this.control = control;
             _idxRow = idxRow;

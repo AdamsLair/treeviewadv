@@ -1,8 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Drawing;
 using System.Linq;
-using System.Text;
 using System.Text.RegularExpressions;
 using System.Windows;
 using System.Windows.Automation.Provider;
@@ -15,9 +12,9 @@ namespace Aga.Controls.Providers
     {
         // We know the Bar's parent is always the fragment root in this sample.
         public TreeNodeAdvProvider(TreeViewAdv control, IRawElementProviderFragmentRoot root, int idxRow)
-            : base((IRawElementProviderFragment)root /* parent */, root /* fragmentRoot */)
+            : base(root, root)
         {
-            this.control = control;
+            this._control = control;
             _idxRow = idxRow;
             _node = control.RowMap.ElementAt(idxRow);
 
@@ -79,7 +76,7 @@ namespace Aga.Controls.Providers
             get
             {
                 // Bounding rects must be in screen coordinates
-                var screenRect = control.RectangleToScreen(control.GetNodeBounds(_node));
+                var screenRect = _control.RectangleToScreen(_control.GetNodeBounds(_node));
 
                 var result = new Rect(screenRect.Left, screenRect.Top, screenRect.Width, screenRect.Height);
 
@@ -92,7 +89,7 @@ namespace Aga.Controls.Providers
             // Return our first child, which is the first section in the bar.
             if (_node.Children.Count > 0)
             {
-                return new TreeNodeAdvProvider(control, this,  0);
+                return new TreeNodeAdvProvider(_control, this,  0);
             }
 
             return null;
@@ -103,7 +100,7 @@ namespace Aga.Controls.Providers
             // Return our last child, which is the last section in the bar.
             if (_node.Children.Count > 0)
             {
-                return new TreeNodeAdvProvider(control, this, _node.Children.Count-1);
+                return new TreeNodeAdvProvider(_control, this, _node.Children.Count-1);
             }
 
             return null;
@@ -114,7 +111,7 @@ namespace Aga.Controls.Providers
             // Return the fragment for the next bar in the chart.
             if (_idxRow < _node.Children.Count - 1)
             {
-                return new TreeNodeAdvProvider(control, this, _idxRow + 1);
+                return new TreeNodeAdvProvider(_control, this, _idxRow + 1);
             }
 
             return null;
@@ -125,7 +122,7 @@ namespace Aga.Controls.Providers
             // Return the fragment for the previous bar in the chart.
             if (_idxRow > 0)
             {
-                return new TreeNodeAdvProvider(control, this, _idxRow - 1);
+                return new TreeNodeAdvProvider(_control, this, _idxRow - 1);
             }
 
             return null;
@@ -154,36 +151,36 @@ namespace Aga.Controls.Providers
 
         #region Fields
 
-        private TreeViewAdv control;
-        private int _idxRow;
-        private TreeNodeAdv _node;
+        private readonly TreeViewAdv _control;
+        private readonly int _idxRow;
+        private readonly TreeNodeAdv _node;
 
         #endregion
 
         public IRawElementProviderFragment ElementProviderFromPoint(double x, double y)
         {
-            var node = control.GetNodeAt(new System.Drawing.Point((int) x, (int) y));
-            return new TreeNodeAdvProvider(control, new TreeViewAdvProvider(control), node.Index);
+            var node = _control.GetNodeAt(new System.Drawing.Point((int) x, (int) y));
+            return new TreeNodeAdvProvider(_control, new TreeViewAdvProvider(_control), node.Index);
         }
 
         public IRawElementProviderFragment GetFocus()
         {
-            if (control.RowMap != null && control.RowMap.Any(n => n.IsSelected))
+            if (_control.RowMap != null && _control.RowMap.Any(n => n.IsSelected))
             {
-                return (IRawElementProviderFragment) control.RowMap.Where(n => n.IsSelected);
+                return (IRawElementProviderFragment) _control.RowMap.Where(n => n.IsSelected);
             }
             else return null;
         }
 
-        public IRawElementProviderSimple HostRawElementProvider
+        public override IRawElementProviderSimple HostRawElementProvider
         {
             get
             {
                 var hwnd = GetWindowHandle();
                 if (hwnd != IntPtr.Zero)
                 {
-                    IRawElementProviderSimple hostProvider = null;
-                    NativeMethods.UiaHostProviderFromHwnd(this.GetWindowHandle(), out hostProvider);
+                    IRawElementProviderSimple hostProvider;
+                    NativeMethods.UiaHostProviderFromHwnd(GetWindowHandle(), out hostProvider);
                     return hostProvider;
                 }
 

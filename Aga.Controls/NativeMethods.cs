@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Runtime.InteropServices;
 using System.Windows.Automation.Provider;
+// ReSharper disable All
 
 namespace Aga.Controls
 {

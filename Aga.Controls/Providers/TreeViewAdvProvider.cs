@@ -39,12 +39,6 @@ namespace Aga.Controls.Providers
             }
         }
 
-        public override object GetPatternProvider(int patternId)
-        {
-            // The chart itself doesn't add any pattern support.
-            return base.GetPatternProvider(patternId);
-        }
-
         protected override IntPtr GetWindowHandle()
         {
             // Return our window handle, since the main Chart is a root provider.
@@ -106,7 +100,7 @@ namespace Aga.Controls.Providers
 
         #region Fields
 
-        private TreeViewAdv _treeViewAdv;
+        private readonly TreeViewAdv _treeViewAdv;
 
         #endregion
     }
