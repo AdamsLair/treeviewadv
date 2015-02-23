@@ -1,10 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text.RegularExpressions;
 using System.Windows;
 using System.Windows.Automation.Provider;
 using Aga.Controls.BaseProviders;
 using Aga.Controls.Tree;
+using Point = System.Drawing.Point;
 
 namespace Aga.Controls.Providers
 {
@@ -13,16 +15,18 @@ namespace Aga.Controls.Providers
         public TreeViewAdvProvider(TreeViewAdv treeViewAdv)
         {
             _treeViewAdv = treeViewAdv;
+            var strName = _treeViewAdv.Name;
+            var automationPropertyId = Regex.Replace(strName, @"[^0-9a-zA-Z]+", "");
 
             // Populate static properties
             //
             AddStaticProperty(UiaConstants.UIA_ControlTypePropertyId, UiaConstants.UIA_CustomControlTypeId);
-            AddStaticProperty(UiaConstants.UIA_LocalizedControlTypePropertyId, "TreeView");
+            AddStaticProperty(UiaConstants.UIA_LocalizedControlTypePropertyId, strName);
             AddStaticProperty(UiaConstants.UIA_ProviderDescriptionPropertyId, "Automation for TreeViewAdv");
             AddStaticProperty(UiaConstants.UIA_HelpTextPropertyId, "Accessible through Windows UI Automation.");
 
             // Used the Panel name for the good Automation ID of the Chart.
-            AddStaticProperty(UiaConstants.UIA_AutomationIdPropertyId, _treeViewAdv.Name);
+            AddStaticProperty(UiaConstants.UIA_AutomationIdPropertyId, automationPropertyId);
 
             AddStaticProperty(UiaConstants.UIA_IsKeyboardFocusablePropertyId, true);
             AddStaticProperty(UiaConstants.UIA_IsControlElementPropertyId, true);
@@ -60,11 +64,6 @@ namespace Aga.Controls.Providers
             get
             {
                 var screenRect = _treeViewAdv.RectangleToScreen(_treeViewAdv.DisplayRectangle);
-                
-                var m = _treeViewAdv.Margin;
-                var offsetTop = _treeViewAdv.ColumnHeaderHeight;
-                var offsetLeft = m.Left / 2;
-
                 return new Rect(screenRect.Left, screenRect.Top, screenRect.Width, screenRect.Height);
             }
         }
@@ -95,19 +94,23 @@ namespace Aga.Controls.Providers
         public override IRawElementProviderFragment ElementProviderFromPoint(double x, double y)
         {
             // Convert screen point to client point.
-            System.Drawing.Point clientPoint = _treeViewAdv.PointToClient(new System.Drawing.Point((int) x, (int) y));
+            var clientPoint = _treeViewAdv.PointToClient(new Point((int) x, (int) y));
 
 
             var node = _treeViewAdv.GetNodeAt(clientPoint);
-            if (node != null)
-            {
-                var treeNodeAdvProvider = new TreeNodeAdvProvider(_treeViewAdv, this, node.Row);
-
-                return treeNodeAdvProvider;
+            var column = _treeViewAdv.GetColumnAt(clientPoint);
+            if (node != null) 
+            { 
+                return new TreeNodeAdvProvider(_treeViewAdv, this, node.Row);
             }
-            // column header
 
-            //return parent
+            //return header
+            if (column != null)
+            {
+                return new TreeColumnProvider(_treeViewAdv, this, column.Index);
+            }
+
+            // finally return parent
             return _treeViewAdv == null ? null : new TreeViewAdvProvider(_treeViewAdv);
         }
 

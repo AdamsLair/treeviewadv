@@ -15,12 +15,12 @@ namespace Aga.Controls.Providers
         public TreeNodeAdvProvider(TreeViewAdv control, IRawElementProviderFragmentRoot root, int idxRow)
             : base(root, root)
         {
-            this._control = control;
+            _control = control;
             _idxRow = idxRow;
             _node = control.RowMap.ElementAt(idxRow);
 
             var strName = _node.Tag.ToString();
-            var automationPrpertyId = Regex.Replace(strName, @"[^0-9a-zA-Z]+", "");
+            var automationPropertyId = Regex.Replace(strName, @"[^0-9a-zA-Z]+", "");
 
             // Populate static properties
             //
@@ -33,7 +33,7 @@ namespace Aga.Controls.Providers
             AddStaticProperty(UiaConstants.UIA_ProviderDescriptionPropertyId, "Treenode in the tree, FTW!");
 
             // The automation id should be unique amongst the fragments siblings, and consistent between sessions.
-            AddStaticProperty(UiaConstants.UIA_AutomationIdPropertyId, "TreeNode_" + automationPrpertyId);
+            AddStaticProperty(UiaConstants.UIA_AutomationIdPropertyId, "TreeNode_" + automationPropertyId);
 
             AddStaticProperty(UiaConstants.UIA_IsKeyboardFocusablePropertyId, false);
             AddStaticProperty(UiaConstants.UIA_IsControlElementPropertyId, true);
@@ -45,8 +45,8 @@ namespace Aga.Controls.Providers
             // Request COM threading style - all calls on main thread
             get
             {
-                return (ProviderOptions)((int)(ProviderOptions.ServerSideProvider |
-                                               ProviderOptions.UseComThreading));
+                return (ProviderOptions) ((int) (ProviderOptions.ServerSideProvider |
+                                                 ProviderOptions.UseComThreading));
             }
         }
 
@@ -78,12 +78,13 @@ namespace Aga.Controls.Providers
             {
                 // Bounding rects must be in screen coordinates
                 var screenRect = _control.RectangleToScreen(_control.GetNodeBounds(_node));
-                
-                var m = _control.Margin;
-                var offsetTop =  _control.ColumnHeaderHeight;
-                var offsetLeft = m.Left/2;
 
-                return new Rect(screenRect.Left + offsetLeft, screenRect.Top + offsetTop, screenRect.Width, screenRect.Height);
+                var margin = _control.Margin;
+                var offsetTop = _control.ColumnHeaderHeight;
+                var offsetLeft = margin.Left/2;
+
+                return new Rect(screenRect.Left + offsetLeft, screenRect.Top + offsetTop, screenRect.Width,
+                    screenRect.Height);
             }
         }
 
@@ -92,7 +93,7 @@ namespace Aga.Controls.Providers
             // Return our first child, which is the first section in the bar.
             if (_node.Children.Count > 0)
             {
-                return new TreeNodeAdvProvider(_control, this,  0);
+                return new TreeNodeAdvProvider(_control, this, 0);
             }
 
             return null;
@@ -103,7 +104,7 @@ namespace Aga.Controls.Providers
             // Return our last child, which is the last section in the bar.
             if (_node.Children.Count > 0)
             {
-                return new TreeNodeAdvProvider(_control, this, _node.Children.Count-1);
+                return new TreeNodeAdvProvider(_control, this, _node.Children.Count - 1);
             }
 
             return null;
@@ -162,9 +163,8 @@ namespace Aga.Controls.Providers
 
         public IRawElementProviderFragment ElementProviderFromPoint(double x, double y)
         {
-            //TODO: Hier de column providert ook meenemen
             var node = _control.GetNodeAt(new System.Drawing.Point((int) x, (int) y));
-            return new TreeNodeAdvProvider(_control, new TreeViewAdvProvider(_control), node.Index);
+            return new TreeNodeAdvProvider(_control, this, node.Row);
         }
 
         public IRawElementProviderFragment GetFocus()
@@ -173,7 +173,7 @@ namespace Aga.Controls.Providers
             {
                 return (IRawElementProviderFragment) _control.RowMap.Where(n => n.IsSelected);
             }
-            else return null;
+            return null;
         }
 
         public override IRawElementProviderSimple HostRawElementProvider
@@ -194,18 +194,30 @@ namespace Aga.Controls.Providers
 
         protected override IEnumerable<IRawElementProviderFragment> GetChildren()
         {
-            if (_node.Children.Count>0)
+            if (_node.Children.Count > 0)
             {
                 foreach (var child in _node.Children)
                 {
-                    yield return new TreeNodeAdvProvider(_control,this, child.Row);
+                    yield return new TreeNodeAdvProvider(_control, this, child.Row);
                 }
             }
+        }
+
+        public IEnumerable<IRawElementProviderFragment> Children
+        {
+            get { return GetChildren();}
         }
 
         protected override int GetChildCount()
         {
             return _node.Children.Any() ? _node.Children.Count : 0;
+        }
+
+        public int ChildCount { get { return GetChildCount();} }
+
+        protected IEnumerable<IRawElementProviderFragment> Items
+        {
+            get { return null; }
         }
     }
 }

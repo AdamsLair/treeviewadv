@@ -87,7 +87,6 @@
     <Compile Include="GifDecoder.cs" />
     <Compile Include="NativeMethods.cs" />
     <Compile Include="PerformanceAnalyzer.cs" />
-    <Compile Include="Providers\TreeModelProvider.cs" />
     <Compile Include="Providers\TreeColumnProvider.cs" />
     <Compile Include="Providers\TreeNodeAdvProvider.cs" />
     <Compile Include="Providers\TreeViewAdvProvider.cs" />
