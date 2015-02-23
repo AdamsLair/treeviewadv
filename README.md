@@ -13,7 +13,7 @@ Implementation as described on [this blog](http://blogs.msdn.com/b/winuiautomati
 
 ## Screenshots
 ### Before implementation
-![Berfore Implementation](images/BerforeImplementation.png)
+![Before Implementation](images/BeforeImplementation.png)
 
 ### After implementation
 ![After Implementation](images/AfterImplementation.png)
