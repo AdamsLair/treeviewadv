@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Drawing;
 using System.Linq;
 using System.Text.RegularExpressions;
 using System.Windows;
@@ -11,16 +12,14 @@ namespace Aga.Controls.Providers
     public class TreeColumnProvider : BaseFragmentProvider, IRawElementProviderFragmentRoot, IValueProvider
     {
         // We know the Bar's parent is always the fragment root in this sample.
-        public TreeColumnProvider(TreeViewAdv control, IRawElementProviderFragmentRoot root, int idxRow, int idxColumn)
+        public TreeColumnProvider(TreeViewAdv control, IRawElementProviderFragmentRoot root, int idxColumn)
             : base(root, root)
         {
-            this._control = control;
-            _idxRow = idxRow;
+            _control = control;
             _idxColumn = idxColumn;
-            _node = control.RowMap.ElementAt(idxRow);
             _column = _control.Columns[idxColumn];
 
-            var strName = _node.Tag.ToString();
+            var strName = _column.Header;
             var automationPropertyId = Regex.Replace(strName, @"[^0-9a-zA-Z]+", "");
 
             // Populate static properties
@@ -67,7 +66,7 @@ namespace Aga.Controls.Providers
             int[] runtimeId = new int[2];
 
             runtimeId[0] = UiaConstants.AppendRuntimeId;
-            runtimeId[1] = _idxRow;
+            runtimeId[1] = _idxColumn;
 
             return runtimeId;
         }
@@ -77,18 +76,14 @@ namespace Aga.Controls.Providers
         {
             get
             {
+                var left = _control.Columns.Take(_idxColumn).Sum(c => c.Width);
+                //var size = _column.GetActualSize(new DrawContext());
                 // Bounding rects must be in screen coordinates
-                var screenRect = _control.RectangleToScreen(_control.GetNodeBounds(_node));
-                var offsetTop = _control.ColumnHeaderHeight;
+                var screenRect = _control.RectangleToScreen(new Rectangle(left, 0, _column.Width, _control.ColumnHeaderHeight));
 
-                var m = _control.Margin;
-                var offsetLeft = _control.DragDropMarkWidth - m.Left;
-                if (_control.Columns.Count > 0)
-                {
-                  offsetLeft += _control.Columns.Where(x => x.Index < _idxColumn).Sum(x => x.Width);   
-                }
+                var margin = _control.Margin;
                 
-                var result = new Rect(screenRect.Left - offsetLeft, screenRect.Top + offsetTop, screenRect.Width, screenRect.Height);
+                var result = new Rect(screenRect.Left- margin.Left, screenRect.Top, screenRect.Width, screenRect.Height);
 
                 return result;
             }
@@ -96,32 +91,20 @@ namespace Aga.Controls.Providers
 
         protected override IRawElementProviderFragment GetFirstChild()
         {
-            // Return our first child, which is the first section in the bar.
-            if (_node.Children.Count > 0)
-            {
-                return new TreeNodeAdvProvider(_control, this,  0);
-            }
-
             return null;
         }
 
         protected override IRawElementProviderFragment GetLastChild()
         {
-            // Return our last child, which is the last section in the bar.
-            if (_node.Children.Count > 0)
-            {
-                return new TreeNodeAdvProvider(_control, this, _node.Children.Count-1);
-            }
-
             return null;
         }
 
         protected override IRawElementProviderFragment GetNextSibling()
         {
             // Return the fragment for the next bar in the chart.
-            if (_idxRow < _node.Children.Count - 1)
+            if (_idxColumn < _control.Columns.Count - 1)
             {
-                return new TreeNodeAdvProvider(_control, this, _idxRow + 1);
+                return new TreeColumnProvider(_control, this, _idxColumn + 1);
             }
 
             return null;
@@ -130,9 +113,9 @@ namespace Aga.Controls.Providers
         protected override IRawElementProviderFragment GetPreviousSibling()
         {
             // Return the fragment for the previous bar in the chart.
-            if (_idxRow > 0)
+            if (_idxColumn > 0)
             {
-                return new TreeNodeAdvProvider(_control, this, _idxRow - 1);
+                return new TreeColumnProvider(_control, this, _idxColumn - 1);
             }
 
             return null;
@@ -146,25 +129,23 @@ namespace Aga.Controls.Providers
 
         public string Value
         {
-            get { return _node.Tag.ToString(); }
+            get { return _column.Header;  }
         }
 
         bool IValueProvider.IsReadOnly
         {
-            get { return _node.IsHidden; }
+            get { return true; }
         }
 
         public void SetValue(string value)
         {
-            throw new InvalidOperationException("Node value is read-only.");
+            throw new InvalidOperationException("Header value is read-only.");
         }
 
         #region Fields
 
         private readonly TreeViewAdv _control;
-        private readonly int _idxRow;
         private readonly int _idxColumn;
-        private readonly TreeNodeAdv _node;
         private readonly TreeColumn _column;
 
         #endregion
@@ -172,16 +153,16 @@ namespace Aga.Controls.Providers
         public IRawElementProviderFragment ElementProviderFromPoint(double x, double y)
         {
             var node = _control.GetNodeAt(new System.Drawing.Point((int) x, (int) y));
-            return new TreeNodeAdvProvider(_control, new TreeViewAdvProvider(_control), node.Index);
+            return new TreeColumnProvider(_control, this, node.Index);
         }
 
         public IRawElementProviderFragment GetFocus()
         {
-            if (_control.RowMap != null && _control.RowMap.Any(n => n.IsSelected))
+            if (_control.Columns != null && _control.Columns.Any(n => n.IsVisible))
             {
-                return (IRawElementProviderFragment) _control.RowMap.Where(n => n.IsSelected);
+                return (IRawElementProviderFragment) _control.Columns[_idxColumn];
             }
-            else return null;
+            return null;
         }
 
         public override IRawElementProviderSimple HostRawElementProvider

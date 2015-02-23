@@ -1,0 +1,26 @@
+treeviewadv
+===========
+
+Forked from http://sourceforge.net/projects/treeviewadv/
+
+<<<<<<< HEAD
+### Fork details
+* Add suppport for UIAtomation framwork (in progress)
+* Add detection for drawing canvas [http://stackoverflow.com/questions/26148177/how-to-recognize-wpf-drawing-visuals-in-uiautomation](http://stackoverflow.com/questions/26148177/how-to-recognize-wpf-drawing-visuals-in-uiautomation)
+
+=======
+Implements UIAutomation for 
+* TreeNodeAdv
+* TreeModel
+* TreeViewAdv
+
+## Implementation
+Implementation as described on [this blog](http://blogs.msdn.com/b/winuiautomation/archive/2011/05/18/a-ui-automation-bar-chart-sample.aspx)
+
+## Screenshots
+### Before implementation
+![Before Implementation](images/BeforeImplementation.png)
+
+### After implementation
+![After Implementation](images/AfterImplementation.png)
+>>>>>>> master
