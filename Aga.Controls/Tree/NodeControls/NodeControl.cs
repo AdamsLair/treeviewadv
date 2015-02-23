@@ -165,5 +165,7 @@ namespace Aga.Controls.Tree.NodeControls
 			if (IsVisibleValueNeeded != null)
 				IsVisibleValueNeeded(this, args);
 		}
+
+
 	}
 }
