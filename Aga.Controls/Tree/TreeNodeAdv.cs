@@ -1,5 +1,4 @@
 using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Runtime.Serialization;
 using System.Security.Permissions;
@@ -458,5 +457,38 @@ namespace Aga.Controls.Tree
 		}
 
 		#endregion
+
+        //************************************************************************************************
+        //
+        // The remaining methods in this file relate to adding a UIA Provider implementation to the chart.
+        //
+        //************************************************************************************************
+        //private TreeNodeAdvProvider provider;
+
+        //protected override void WndProc(ref Message m)
+        //{
+        //    // Handle WM_GETOBJECT. Without this, UIA doesn;t know the chart has a UIA Provider implementation.
+        //    if (m.Msg == 0x3D /* WM_GETOBJECT */)
+        //    {
+        //        m.Result = NativeMethods.UiaReturnRawElementProvider(m.HWnd, m.WParam, m.LParam, this.Provider);
+        //    }
+        //    else
+        //    {
+        //        base.WndProc(ref m);
+        //    }
+        //}
+
+        //private TreeViewAdvProvider Provider
+        //{
+        //    get
+        //    {
+        //        if (provider == null)
+        //        {
+        //            provider = new TreeNodeAdvProvider(this);
+        //        }
+
+        //        return provider;
+        //    }
+        //}
 	}
 }
