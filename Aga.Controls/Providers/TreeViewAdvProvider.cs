@@ -15,10 +15,9 @@ namespace Aga.Controls.Providers
             // Populate static properties
             //
             AddStaticProperty(UiaConstants.UIA_ControlTypePropertyId, UiaConstants.UIA_CustomControlTypeId);
-            AddStaticProperty(UiaConstants.UIA_LocalizedControlTypePropertyId, "Bar Chart");
-            AddStaticProperty(UiaConstants.UIA_ProviderDescriptionPropertyId, "UIASamples: Bar Chart Provider");
-            AddStaticProperty(UiaConstants.UIA_HelpTextPropertyId,
-                "This is a bar chart made accessible through Windows UI Automation.");
+            AddStaticProperty(UiaConstants.UIA_LocalizedControlTypePropertyId, "TreeView");
+            AddStaticProperty(UiaConstants.UIA_ProviderDescriptionPropertyId, "Automation for TreeViewAdv");
+            AddStaticProperty(UiaConstants.UIA_HelpTextPropertyId, "Accessible through Windows UI Automation.");
 
             // Used the Panel name for the good Automation ID of the Chart.
             AddStaticProperty(UiaConstants.UIA_AutomationIdPropertyId, _treeViewAdv.Name);

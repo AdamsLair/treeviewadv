@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Windows;
 using System.Windows.Automation.Provider;
 using Aga.Controls.BaseProviders;
@@ -20,7 +21,8 @@ namespace Aga.Controls.Providers
             _idxRow = idxRow;
             _node = control.RowMap.ElementAt(idxRow);
 
-            string strName = _node.Tag.ToString();
+            var strName = _node.Tag.ToString();
+            var automationPrpertyId = Regex.Replace(strName, @"[^0-9a-zA-Z]+", "");
 
             // Populate static properties
             //
@@ -29,11 +31,11 @@ namespace Aga.Controls.Providers
             AddStaticProperty(UiaConstants.UIA_ControlTypePropertyId, UiaConstants.UIA_CustomControlTypeId);
 
             // In a production app, LocalizedControlType should be localized
-            AddStaticProperty(UiaConstants.UIA_LocalizedControlTypePropertyId, "Chart Bar");
-            AddStaticProperty(UiaConstants.UIA_ProviderDescriptionPropertyId, "UIASamples: Chart Bar Provider");
+            AddStaticProperty(UiaConstants.UIA_LocalizedControlTypePropertyId, "TreeNode");
+            AddStaticProperty(UiaConstants.UIA_ProviderDescriptionPropertyId, "Treenode in the tree, FTW!");
 
             // The automation id should be unique amongst the fragments siblings, and consistent between sessions.
-            AddStaticProperty(UiaConstants.UIA_AutomationIdPropertyId, "ChartBar" + strName);
+            AddStaticProperty(UiaConstants.UIA_AutomationIdPropertyId, "TreeNode_" + automationPrpertyId);
 
             AddStaticProperty(UiaConstants.UIA_IsKeyboardFocusablePropertyId, false);
             AddStaticProperty(UiaConstants.UIA_IsControlElementPropertyId, true);
