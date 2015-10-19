@@ -408,20 +408,23 @@ namespace Aga.Controls.Tree
 			if (node.Row < 0)
 				CreateRowMap();
 
-			int row = -1;
+			int visibleRow = -1;
 
 			if (node.Row < FirstVisibleRow)
-				row = node.Row;
+				visibleRow = ActualIndexToVisibleIndex(node.Row);
 			else
 			{
 				int pageStart = _rowLayout.GetRowBounds(FirstVisibleRow).Top;
 				int rowBottom = _rowLayout.GetRowBounds(node.Row).Bottom;
 				if (rowBottom > pageStart + DisplayRectangle.Height - ColumnHeaderHeight)
-					row = _rowLayout.GetFirstRow(node.Row);
+				{
+					int nodeRow = _rowLayout.GetFirstRow(node.Row);
+					visibleRow = ActualIndexToVisibleIndex(nodeRow);
+				}
 			}
 
-			if (row >= _vScrollBar.Minimum && row <= _vScrollBar.Maximum)
-				_vScrollBar.Value = row;
+			if (visibleRow >= _vScrollBar.Minimum && visibleRow <= _vScrollBar.Maximum)
+				_vScrollBar.Value = visibleRow;
 		}
 
 		public void ClearSelection()
@@ -516,8 +519,8 @@ namespace Aga.Controls.Tree
 
 		private void UpdateVScrollBar()
 		{
-			_vScrollBar.Maximum = Math.Max(RowCount - 1, 0);
-			_vScrollBar.LargeChange = _rowLayout.PageRowCount;
+			_vScrollBar.Maximum = Math.Max(VisibleRowCount - 1, 0);
+			_vScrollBar.LargeChange = _rowLayout.VisiblePageRowCount;
 			_vScrollBar.Visible = (RowCount > 0) && (_vScrollBar.LargeChange <= _vScrollBar.Maximum);
 			_vScrollBar.Value = Math.Min(_vScrollBar.Value, _vScrollBar.Maximum - _vScrollBar.LargeChange + 1);
 		}
@@ -952,7 +955,7 @@ namespace Aga.Controls.Tree
 
 		private void _vScrollBar_ValueChanged(object sender, EventArgs e)
 		{
-			FirstVisibleRow = _vScrollBar.Value;
+			FirstVisibleRow = VisibleIndexToActualIndex(_vScrollBar.Value);
 		}
 
 		private void _hScrollBar_ValueChanged(object sender, EventArgs e)
@@ -1078,6 +1081,35 @@ namespace Aga.Controls.Tree
 					return res;
 			}
 			return null;
+		}
+
+		private int ActualIndexToVisibleIndex(int nodeIndex)
+		{
+			int visibleCount = 0;
+			for (int i = 0; i < nodeIndex; i++)
+			{
+				if (this._rowMap[i].IsHidden)
+					continue;
+
+				visibleCount++;
+			}
+
+			return visibleCount;
+		}
+		private int VisibleIndexToActualIndex(int visibleNodeIndex)
+		{
+			int visibleCount = -1;
+			for (int i = 0; i < this._rowMap.Count; i++)
+			{
+				if (this._rowMap[i].IsHidden)
+					continue;
+
+				visibleCount++;
+				if (visibleCount == visibleNodeIndex)
+					return i;
+			}
+
+			return this._rowMap.Count - 1;
 		}
 
 		public void SelectAllNodes()

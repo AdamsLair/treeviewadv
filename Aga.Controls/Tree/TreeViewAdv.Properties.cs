@@ -163,6 +163,25 @@ namespace Aga.Controls.Tree
 			}
 		}
 
+		/// <summary>
+		/// Number of all visible, non-hidden nodes (which parent is expanded)
+		/// </summary>
+		internal int VisibleRowCount
+		{
+			get
+			{
+				int visibleCount = 0;
+				for (int i = 0; i < this.RowMap.Count; i++)
+				{
+					if (this.RowMap[i].IsHidden)
+						continue;
+
+					visibleCount++;
+				}
+				return visibleCount;
+			}
+		}
+
 		private int _contentWidth = 0;
 		private int ContentWidth
 		{

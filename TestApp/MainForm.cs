@@ -52,6 +52,8 @@ namespace TestApp
 			this.model.Nodes[1].Nodes[3].IsHidden = true;
 			this.model.Nodes[5].IsHidden = true;
 			this.model.Nodes[6].IsHidden = true;
+			this.model.Nodes[7].IsHidden = true;
+			this.model.Nodes[8].IsHidden = true;
 		}
 
 		private bool filter(object obj)

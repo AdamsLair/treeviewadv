@@ -29,7 +29,7 @@ namespace Aga.Controls.Tree
 		}
 
 
-		public int PageRowCount
+		public int VisiblePageRowCount
 		{
 			get 
 			{
@@ -39,11 +39,15 @@ namespace Aga.Controls.Tree
 				{
 					int pageHeight = _treeView.DisplayRectangle.Height - _treeView.ColumnHeaderHeight;
 					int y = 0;
+					int visibleCount = 0;
 					for (int i = _treeView.RowCount - 1; i >= 0; i--)
 					{
+						if (_treeView.RowMap[i].IsHidden)
+							continue;
 						y += GetRowHeight(i);
 						if (y > pageHeight)
-							return Math.Max(0, _treeView.RowCount - 1 - i);
+							return visibleCount;
+						visibleCount++;
 					}
 					return _treeView.RowCount;
 				}

@@ -138,7 +138,7 @@ namespace Aga.Controls.Tree
 		{
 			int row = Math.Max(Tree.CurrentNode.Row - n, 0);
 			while (Tree.RowMap[row].IsHidden) --row;
-			if (row != Tree.CurrentNode.Row && row > 0)
+			if (row != Tree.CurrentNode.Row && row >= 0)
 				FocusRow(Tree.RowMap[row]);
 		}
 

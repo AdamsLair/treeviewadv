@@ -13,7 +13,7 @@ namespace Aga.Controls.Tree
 			set;
 		}
 
-		int PageRowCount
+		int VisiblePageRowCount
 		{
 			get;
 		}
