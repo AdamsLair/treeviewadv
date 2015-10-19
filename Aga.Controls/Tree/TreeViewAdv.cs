@@ -955,7 +955,7 @@ namespace Aga.Controls.Tree
 
 		private void _vScrollBar_ValueChanged(object sender, EventArgs e)
 		{
-			FirstVisibleRow = VisibleIndexToActualIndex(_vScrollBar.Value);
+			FirstVisibleRow = Math.Max(0, VisibleIndexToActualIndex(_vScrollBar.Value));
 		}
 
 		private void _hScrollBar_ValueChanged(object sender, EventArgs e)
