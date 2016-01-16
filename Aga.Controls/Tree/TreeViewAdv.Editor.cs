@@ -43,7 +43,9 @@ namespace Aga.Controls.Tree
 
 		void EditorLeave(object sender, EventArgs e)
 		{
-			HideEditor(true);
+			// ilexp, 2016-01-16: Replaced "this.HideEditor(true)" with a detour over the editor's "EndEdit(true)", so the "OnEditorHided()" event is properly called
+			if (CurrentEditorOwner != null)
+				CurrentEditorOwner.EndEdit(true);
 		}
 
 		internal bool HideEditor(bool applyChanges)
