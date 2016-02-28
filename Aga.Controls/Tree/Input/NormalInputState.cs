@@ -137,16 +137,26 @@ namespace Aga.Controls.Tree
 		private void NavigateBackward(int n)
 		{
 			int row = Math.Max(Tree.CurrentNode.Row - n, 0);
-			while (Tree.RowMap[row].IsHidden) --row;
-			if (row != Tree.CurrentNode.Row && row >= 0)
+			while (Tree.RowMap[row].IsHidden)
+			{
+				// If we've reached the end without seeing a non-hidden node, do nothing
+				if (row == 0) return;
+				row--;
+			}
+			if (row != Tree.CurrentNode.Row)
 				FocusRow(Tree.RowMap[row]);
 		}
 
 		private void NavigateForward(int n)
 		{
 			int row = Math.Min(Tree.CurrentNode.Row + n, Tree.RowCount - 1);
-			while (Tree.RowMap[row].IsHidden) ++row;
-			if (row != Tree.CurrentNode.Row && row < Tree.RowMap.Count)
+			while (Tree.RowMap[row].IsHidden)
+			{
+				// If we've reached the end without seeing a non-hidden node, do nothing
+				if (row == Tree.RowCount - 1) return;
+				row++;
+			}
+			if (row != Tree.CurrentNode.Row)
 				FocusRow(Tree.RowMap[row]);
 		}
 
