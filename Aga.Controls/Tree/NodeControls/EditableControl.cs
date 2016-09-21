@@ -180,7 +180,7 @@ namespace Aga.Controls.Tree.NodeControls
 		
 		public event EventHandler EditorShown;
 		protected void OnEditorShown(){
-			EditorShown?.Invoke(this,EventArgs.Empty)
+			EditorShown?.Invoke(this,EventArgs.Empty);
 		}
 
 		#endregion
