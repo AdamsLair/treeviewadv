@@ -71,6 +71,7 @@ namespace Aga.Controls.Tree.NodeControls
 				{
 					var editor = CreateEditor(Parent.CurrentNode);
 					Parent.DisplayEditor(editor, this);
+					OnEditorShown();
 				}
 			}
 		}
@@ -175,6 +176,11 @@ namespace Aga.Controls.Tree.NodeControls
 		{
 			if (ChangesApplied != null)
 				ChangesApplied(this, EventArgs.Empty);
+		}
+		
+		public event EventHandler EditorShown;
+		protected void OnEditorShown(){
+			EditorShown?.Invoke(this,EventArgs.Empty)
 		}
 
 		#endregion
