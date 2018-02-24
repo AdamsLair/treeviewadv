@@ -124,7 +124,7 @@ namespace Aga.Controls.Tree
 		{
 			int py = point.Y - _treeView.ColumnHeaderHeight;
 			if (py < 0)  // Header column
-				return =1; 
+				return -1; 
 			int y = 0;
 			for (int i = _treeView.FirstVisibleRow; i < _treeView.RowCount; i++)
 			{
