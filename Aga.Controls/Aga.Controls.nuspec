@@ -10,7 +10,7 @@
     <description>A custom version of Aga.Controls for being used with the Duality framework. Forked from http://sourceforge.net/projects/treeviewadv/</description>
   </metadata>
   <files>
-    <file src="bin\Release\Aga.Controls.dll" target="lib" />
-    <file src="bin\Release\Aga.Controls.pdb" target="lib" />
+    <file src="bin\Release\Aga.Controls.dll" target="lib\net20" />
+    <file src="bin\Release\Aga.Controls.pdb" target="lib\net20" />
   </files>
 </package>
