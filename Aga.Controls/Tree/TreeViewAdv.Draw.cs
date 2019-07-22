@@ -29,6 +29,10 @@ namespace Aga.Controls.Tree
 						if (nc.ParentColumn == column)
 							w += nc.GetActualSize(node, _measureContext).Width;
 					}
+					if (column.Index == 0)
+					{
+						w += node.Level * _indent + LeftMargin;
+					}
 					res = Math.Max(res, w);
 				}
 			}
@@ -61,58 +65,58 @@ namespace Aga.Controls.Tree
 			_linePen.DashStyle = DashStyle.Dot;
 		}
 
-        protected override void OnPaint(PaintEventArgs e)
-        {
-            BeginPerformanceCount();
+		protected override void OnPaint(PaintEventArgs e)
+		{
+			BeginPerformanceCount();
 			PerformanceAnalyzer.Start("OnPaint");
 
-            DrawContext context = new DrawContext();
-            context.Graphics = e.Graphics;
-            context.Font = this.Font;
-            context.Enabled = Enabled;
+			DrawContext context = new DrawContext();
+			context.Graphics = e.Graphics;
+			context.Font = this.Font;
+			context.Enabled = Enabled;
 
-            int y = 0;
-            int gridHeight = 0;
+			int y = 0;
+			int gridHeight = 0;
 
-            if (UseColumns)
-            {
+			if (UseColumns)
+			{
 				DrawColumnHeaders(e.Graphics);
 				y += ColumnHeaderHeight;
-                if (Columns.Count == 0 || e.ClipRectangle.Height <= y)
-                    return;
-            }
+				if (Columns.Count == 0 || e.ClipRectangle.Height <= y)
+					return;
+			}
 
 			int firstRowY = _rowLayout.GetRowBounds(FirstVisibleRow).Y;
-            y -= firstRowY;
+			y -= firstRowY;
 
-            e.Graphics.ResetTransform();
-            e.Graphics.TranslateTransform(-OffsetX, y);
-            Rectangle displayRect = DisplayRectangle;
-            for (int row = FirstVisibleRow; row < RowCount; row++)
-            {
-                Rectangle rowRect = _rowLayout.GetRowBounds(row);
-                gridHeight += rowRect.Height;
-                if (rowRect.Y + y > displayRect.Bottom)
-                    break;
-                else
-                    DrawRow(e, ref context, row, rowRect);
-            }
+			e.Graphics.ResetTransform();
+			e.Graphics.TranslateTransform(-OffsetX, y);
+			Rectangle displayRect = DisplayRectangle;
+			for (int row = FirstVisibleRow; row < RowCount; row++)
+			{
+				Rectangle rowRect = _rowLayout.GetRowBounds(row);
+				gridHeight += rowRect.Height;
+				if (rowRect.Y + y > displayRect.Bottom)
+					break;
+				else
+					DrawRow(e, ref context, row, rowRect);
+			}
 
 			if ((GridLineStyle & GridLineStyle.Vertical) == GridLineStyle.Vertical && UseColumns)
 				DrawVerticalGridLines(e.Graphics, firstRowY);
 
 			if (_dropPosition.Node != null && DragMode && HighlightDropPosition)
-                DrawDropMark(e.Graphics);
+				DrawDropMark(e.Graphics);
 
-            e.Graphics.ResetTransform();
-            DrawScrollBarsBox(e.Graphics);
+			e.Graphics.ResetTransform();
+			DrawScrollBarsBox(e.Graphics);
 
-            if (DragMode && _dragBitmap != null)
-                e.Graphics.DrawImage(_dragBitmap, PointToClient(MousePosition));
+			if (DragMode && _dragBitmap != null)
+				e.Graphics.DrawImage(_dragBitmap, PointToClient(MousePosition));
 
 			PerformanceAnalyzer.Finish("OnPaint");
 			EndPerformanceCount(e);
-        }
+		}
 
 		private void DrawRow(PaintEventArgs e, ref DrawContext context, int row, Rectangle rowRect)
 		{
@@ -155,7 +159,7 @@ namespace Aga.Controls.Tree
 				}
 			}
 
-            if ((GridLineStyle & GridLineStyle.Horizontal) == GridLineStyle.Horizontal)
+			if ((GridLineStyle & GridLineStyle.Horizontal) == GridLineStyle.Horizontal)
 				e.Graphics.DrawLine(SystemPens.InactiveBorder, 0, rowRect.Bottom, e.Graphics.ClipBounds.Right, rowRect.Bottom);
 
 			if (ShowLines)
