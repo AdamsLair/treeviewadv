@@ -33,6 +33,8 @@ namespace SampleApp
 			_tree.Model = _model;
 			ChangeButtons();
 
+			_tree.ShowPerformance = true;
+
 			_tree.BeginUpdate();
 			for (int i = 0; i < 10; i++)
 			{
@@ -277,6 +279,13 @@ namespace SampleApp
 		private void button3_Click(object sender, EventArgs e)
 		{
 			_tree.ClearSelection();
+		}
+
+		private void ToggleEnabled(object sender, EventArgs e)
+		{
+			_tree.BeginUpdate();
+			_tree.SelectedNode.IsEnabled = !_tree.SelectedNode.IsEnabled;
+			_tree.EndUpdate();
 		}
 	}
 }

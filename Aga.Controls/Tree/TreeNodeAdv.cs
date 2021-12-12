@@ -129,6 +129,10 @@ namespace Aga.Controls.Tree
 			}
 		}
 
+
+		public bool IsEnabled { get; set; } = true;
+
+
 		private bool _isSelected;
 		public bool IsSelected
 		{
@@ -376,6 +380,11 @@ namespace Aga.Controls.Tree
 			_nodes = new NodeCollection(this);
 			_children = new ReadOnlyCollection<TreeNodeAdv>(_nodes);
 			_tag = tag;
+
+			if (tag is Node node)
+			{
+				IsEnabled = node.IsEnabled;
+			}
 		}
 
 		public override string ToString()

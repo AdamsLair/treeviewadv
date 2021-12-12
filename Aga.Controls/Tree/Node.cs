@@ -152,6 +152,8 @@ namespace Aga.Controls.Tree
 			}
 		}
 
+		public bool IsEnabled { set; get; } = true;
+
 		private bool _hidden;
 		public bool IsHidden
 		{

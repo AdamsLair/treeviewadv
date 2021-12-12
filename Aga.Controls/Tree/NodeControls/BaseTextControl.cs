@@ -237,8 +237,14 @@ namespace Aga.Controls.Tree.NodeControls
 			else if (context.DrawSelection == DrawSelectionMode.FullRowSelect)
 				textColor = SystemColors.HighlightText;
 
-			if (!context.Enabled)
+			if (!context.Enabled || !node.IsEnabled)
+			{
 				textColor = SystemColors.GrayText;
+				if (context.DrawSelection != DrawSelectionMode.None)
+				{
+					backgroundBrush = SystemBrushes.InactiveBorder;
+				}
+			}
 
 			if (DrawTextMustBeFired(node))
 			{

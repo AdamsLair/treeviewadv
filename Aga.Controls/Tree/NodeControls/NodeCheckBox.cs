@@ -65,18 +65,28 @@ namespace Aga.Controls.Tree.NodeControls
 			if (Application.RenderWithVisualStyles)
 			{
 				VisualStyleRenderer renderer;
-				if (state == CheckState.Indeterminate)
+				if (!node.IsEnabled)
+				{
+					if (state == CheckState.Checked)
+						renderer = new VisualStyleRenderer(VisualStyleElement.Button.CheckBox.CheckedDisabled);
+					else if (state == CheckState.Indeterminate)
+						renderer = new VisualStyleRenderer(VisualStyleElement.Button.CheckBox.MixedDisabled);
+					else
+						renderer = new VisualStyleRenderer(VisualStyleElement.Button.CheckBox.UncheckedDisabled);
+				}
+				else if (state == CheckState.Indeterminate)
 					renderer = new VisualStyleRenderer(VisualStyleElement.Button.CheckBox.MixedNormal);
 				else if (state == CheckState.Checked)
 					renderer = new VisualStyleRenderer(VisualStyleElement.Button.CheckBox.CheckedNormal);
 				else
 					renderer = new VisualStyleRenderer(VisualStyleElement.Button.CheckBox.UncheckedNormal);
+
 				renderer.DrawBackground(context.Graphics, new Rectangle(bounds.X, bounds.Y, ImageSize, ImageSize));
 			}
 			else
 			{
 				Image img;
-				if (state == CheckState.Indeterminate)
+				if (state == CheckState.Indeterminate || !node.IsEnabled)
 					img = _unknown;
 				else if (state == CheckState.Checked)
 					img = _check;
@@ -122,7 +132,7 @@ namespace Aga.Controls.Tree.NodeControls
 
 		public override void MouseDown(TreeNodeAdvMouseEventArgs args)
 		{
-			if (args.Button == MouseButtons.Left && IsEditEnabled(args.Node))
+			if (args.Button == MouseButtons.Left && args.Node.IsEnabled && IsEditEnabled(args.Node))
 			{
 				DrawContext context = new DrawContext();
 				context.Bounds = args.ControlBounds;
@@ -176,7 +186,7 @@ namespace Aga.Controls.Tree.NodeControls
 					{
 						CheckState value = GetNewState(GetCheckState(Parent.CurrentNode));
 						foreach (TreeNodeAdv node in Parent.Selection)
-							if (IsEditEnabled(node))
+							if (node.IsEnabled && IsEditEnabled(node))
 								SetCheckState(node, value);
 					}
 				}

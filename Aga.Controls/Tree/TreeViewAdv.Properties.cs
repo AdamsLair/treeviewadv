@@ -808,6 +808,9 @@ namespace Aga.Controls.Tree
 			}
 		}
 
+
+		public bool ShowPerformance { get; set; } = false;
+
 		#endregion
 
 		#endregion

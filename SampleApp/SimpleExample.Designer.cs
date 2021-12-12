@@ -51,15 +51,17 @@ namespace SampleApp
 			this._nodeCheckBox = new Aga.Controls.Tree.NodeControls.NodeCheckBox();
 			this._nodeStateIcon = new Aga.Controls.Tree.NodeControls.NodeStateIcon();
 			this._nodeTextBox = new Aga.Controls.Tree.NodeControls.NodeTextBox();
+			this.enableButton = new System.Windows.Forms.Button();
 			((System.ComponentModel.ISupportInitialize)(this._fontSize)).BeginInit();
 			this.SuspendLayout();
 			// 
 			// _addRoot
 			// 
 			this._addRoot.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-			this._addRoot.Location = new System.Drawing.Point(381, 3);
+			this._addRoot.Location = new System.Drawing.Point(572, 5);
+			this._addRoot.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
 			this._addRoot.Name = "_addRoot";
-			this._addRoot.Size = new System.Drawing.Size(91, 23);
+			this._addRoot.Size = new System.Drawing.Size(136, 35);
 			this._addRoot.TabIndex = 1;
 			this._addRoot.Text = "Add Root";
 			this._addRoot.UseVisualStyleBackColor = true;
@@ -68,9 +70,10 @@ namespace SampleApp
 			// _clear
 			// 
 			this._clear.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-			this._clear.Location = new System.Drawing.Point(381, 90);
+			this._clear.Location = new System.Drawing.Point(572, 138);
+			this._clear.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
 			this._clear.Name = "_clear";
-			this._clear.Size = new System.Drawing.Size(91, 23);
+			this._clear.Size = new System.Drawing.Size(136, 35);
 			this._clear.TabIndex = 2;
 			this._clear.Text = "Clear Tree";
 			this._clear.UseVisualStyleBackColor = true;
@@ -79,9 +82,10 @@ namespace SampleApp
 			// _addChild
 			// 
 			this._addChild.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-			this._addChild.Location = new System.Drawing.Point(381, 32);
+			this._addChild.Location = new System.Drawing.Point(572, 49);
+			this._addChild.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
 			this._addChild.Name = "_addChild";
-			this._addChild.Size = new System.Drawing.Size(91, 23);
+			this._addChild.Size = new System.Drawing.Size(136, 35);
 			this._addChild.TabIndex = 3;
 			this._addChild.Text = "Add Child";
 			this._addChild.UseVisualStyleBackColor = true;
@@ -90,9 +94,10 @@ namespace SampleApp
 			// _deleteNode
 			// 
 			this._deleteNode.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-			this._deleteNode.Location = new System.Drawing.Point(381, 61);
+			this._deleteNode.Location = new System.Drawing.Point(572, 94);
+			this._deleteNode.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
 			this._deleteNode.Name = "_deleteNode";
-			this._deleteNode.Size = new System.Drawing.Size(91, 23);
+			this._deleteNode.Size = new System.Drawing.Size(136, 35);
 			this._deleteNode.TabIndex = 5;
 			this._deleteNode.Text = "Delete Node";
 			this._deleteNode.UseVisualStyleBackColor = true;
@@ -109,9 +114,10 @@ namespace SampleApp
 			this._autoRowHeight.AutoSize = true;
 			this._autoRowHeight.Checked = true;
 			this._autoRowHeight.CheckState = System.Windows.Forms.CheckState.Checked;
-			this._autoRowHeight.Location = new System.Drawing.Point(450, 336);
+			this._autoRowHeight.Location = new System.Drawing.Point(679, 517);
+			this._autoRowHeight.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
 			this._autoRowHeight.Name = "_autoRowHeight";
-			this._autoRowHeight.Size = new System.Drawing.Size(101, 17);
+			this._autoRowHeight.Size = new System.Drawing.Size(148, 24);
 			this._autoRowHeight.TabIndex = 7;
 			this._autoRowHeight.Text = "&AutoRowHeight";
 			this._autoRowHeight.UseVisualStyleBackColor = true;
@@ -120,7 +126,8 @@ namespace SampleApp
 			// _fontSize
 			// 
 			this._fontSize.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-			this._fontSize.Location = new System.Drawing.Point(510, 310);
+			this._fontSize.Location = new System.Drawing.Point(765, 477);
+			this._fontSize.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
 			this._fontSize.Maximum = new decimal(new int[] {
             30,
             0,
@@ -132,7 +139,7 @@ namespace SampleApp
             0,
             0});
 			this._fontSize.Name = "_fontSize";
-			this._fontSize.Size = new System.Drawing.Size(48, 20);
+			this._fontSize.Size = new System.Drawing.Size(72, 26);
 			this._fontSize.TabIndex = 8;
 			this._fontSize.Value = new decimal(new int[] {
             9,
@@ -145,9 +152,10 @@ namespace SampleApp
 			// 
 			this.label1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
 			this.label1.AutoSize = true;
-			this.label1.Location = new System.Drawing.Point(450, 312);
+			this.label1.Location = new System.Drawing.Point(675, 480);
+			this.label1.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
 			this.label1.Name = "label1";
-			this.label1.Size = new System.Drawing.Size(54, 13);
+			this.label1.Size = new System.Drawing.Size(81, 20);
 			this.label1.TabIndex = 9;
 			this.label1.Text = "Font Size:";
 			// 
@@ -155,9 +163,10 @@ namespace SampleApp
 			// 
 			this._performanceTest.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
 			this._performanceTest.AutoSize = true;
-			this._performanceTest.Location = new System.Drawing.Point(450, 359);
+			this._performanceTest.Location = new System.Drawing.Point(678, 552);
+			this._performanceTest.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
 			this._performanceTest.Name = "_performanceTest";
-			this._performanceTest.Size = new System.Drawing.Size(109, 17);
+			this._performanceTest.Size = new System.Drawing.Size(161, 24);
 			this._performanceTest.TabIndex = 10;
 			this._performanceTest.Text = "Measure Perform.";
 			this._performanceTest.UseVisualStyleBackColor = true;
@@ -166,9 +175,10 @@ namespace SampleApp
 			// button1
 			// 
 			this.button1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-			this.button1.Location = new System.Drawing.Point(381, 148);
+			this.button1.Location = new System.Drawing.Point(572, 228);
+			this.button1.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
 			this.button1.Name = "button1";
-			this.button1.Size = new System.Drawing.Size(91, 23);
+			this.button1.Size = new System.Drawing.Size(136, 35);
 			this.button1.TabIndex = 12;
 			this.button1.Text = "Refresh";
 			this.button1.UseVisualStyleBackColor = true;
@@ -177,9 +187,10 @@ namespace SampleApp
 			// button2
 			// 
 			this.button2.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-			this.button2.Location = new System.Drawing.Point(381, 119);
+			this.button2.Location = new System.Drawing.Point(572, 183);
+			this.button2.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
 			this.button2.Name = "button2";
-			this.button2.Size = new System.Drawing.Size(91, 23);
+			this.button2.Size = new System.Drawing.Size(136, 35);
 			this.button2.TabIndex = 13;
 			this.button2.Text = "Expand/Collapse";
 			this.button2.UseVisualStyleBackColor = true;
@@ -188,9 +199,10 @@ namespace SampleApp
 			// btnExpNode
 			// 
 			this.btnExpNode.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-			this.btnExpNode.Location = new System.Drawing.Point(478, 3);
+			this.btnExpNode.Location = new System.Drawing.Point(717, 5);
+			this.btnExpNode.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
 			this.btnExpNode.Name = "btnExpNode";
-			this.btnExpNode.Size = new System.Drawing.Size(91, 23);
+			this.btnExpNode.Size = new System.Drawing.Size(136, 35);
 			this.btnExpNode.TabIndex = 14;
 			this.btnExpNode.Text = "Expand Node";
 			this.btnExpNode.UseVisualStyleBackColor = true;
@@ -199,9 +211,10 @@ namespace SampleApp
 			// btnExpNodes
 			// 
 			this.btnExpNodes.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-			this.btnExpNodes.Location = new System.Drawing.Point(478, 32);
+			this.btnExpNodes.Location = new System.Drawing.Point(717, 49);
+			this.btnExpNodes.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
 			this.btnExpNodes.Name = "btnExpNodes";
-			this.btnExpNodes.Size = new System.Drawing.Size(91, 23);
+			this.btnExpNodes.Size = new System.Drawing.Size(136, 35);
 			this.btnExpNodes.TabIndex = 15;
 			this.btnExpNodes.Text = "Expand Nodes";
 			this.btnExpNodes.UseVisualStyleBackColor = true;
@@ -210,9 +223,10 @@ namespace SampleApp
 			// btnCollNode
 			// 
 			this.btnCollNode.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-			this.btnCollNode.Location = new System.Drawing.Point(478, 61);
+			this.btnCollNode.Location = new System.Drawing.Point(717, 94);
+			this.btnCollNode.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
 			this.btnCollNode.Name = "btnCollNode";
-			this.btnCollNode.Size = new System.Drawing.Size(91, 23);
+			this.btnCollNode.Size = new System.Drawing.Size(136, 35);
 			this.btnCollNode.TabIndex = 18;
 			this.btnCollNode.Text = "Collapse Node";
 			this.btnCollNode.UseVisualStyleBackColor = true;
@@ -221,9 +235,10 @@ namespace SampleApp
 			// btnCollNodes
 			// 
 			this.btnCollNodes.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-			this.btnCollNodes.Location = new System.Drawing.Point(478, 90);
+			this.btnCollNodes.Location = new System.Drawing.Point(717, 138);
+			this.btnCollNodes.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
 			this.btnCollNodes.Name = "btnCollNodes";
-			this.btnCollNodes.Size = new System.Drawing.Size(91, 23);
+			this.btnCollNodes.Size = new System.Drawing.Size(136, 35);
 			this.btnCollNodes.TabIndex = 19;
 			this.btnCollNodes.Text = "Collapse Nodes";
 			this.btnCollNodes.UseVisualStyleBackColor = true;
@@ -232,9 +247,10 @@ namespace SampleApp
 			// button3
 			// 
 			this.button3.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-			this.button3.Location = new System.Drawing.Point(478, 119);
+			this.button3.Location = new System.Drawing.Point(717, 183);
+			this.button3.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
 			this.button3.Name = "button3";
-			this.button3.Size = new System.Drawing.Size(91, 23);
+			this.button3.Size = new System.Drawing.Size(136, 35);
 			this.button3.TabIndex = 21;
 			this.button3.Text = "Clear Selection";
 			this.button3.UseVisualStyleBackColor = true;
@@ -243,21 +259,26 @@ namespace SampleApp
 			// _tree2
 			// 
 			this._tree2.AllowDrop = true;
-			this._tree2.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)
-						| System.Windows.Forms.AnchorStyles.Right)));
+			this._tree2.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
 			this._tree2.BackColor = System.Drawing.SystemColors.Window;
+			this._tree2.ColumnHeaderHeight = 0;
 			this._tree2.Cursor = System.Windows.Forms.Cursors.Default;
 			this._tree2.DefaultToolTipProvider = null;
 			this._tree2.DisplayDraggingNodes = true;
 			this._tree2.DragDropMarkColor = System.Drawing.Color.Black;
+			this._tree2.FullRowSelectActiveColor = System.Drawing.Color.Empty;
+			this._tree2.FullRowSelectInactiveColor = System.Drawing.Color.Empty;
 			this._tree2.LineColor = System.Drawing.SystemColors.ControlDark;
 			this._tree2.LoadOnDemand = true;
-			this._tree2.Location = new System.Drawing.Point(0, 229);
+			this._tree2.Location = new System.Drawing.Point(0, 352);
+			this._tree2.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
 			this._tree2.Model = null;
 			this._tree2.Name = "_tree2";
 			this._tree2.NodeControls.Add(this.nodeTextBox1);
+			this._tree2.NodeFilter = null;
 			this._tree2.SelectedNode = null;
-			this._tree2.Size = new System.Drawing.Size(375, 155);
+			this._tree2.Size = new System.Drawing.Size(560, 236);
 			this._tree2.TabIndex = 11;
 			this._tree2.ItemDrag += new System.Windows.Forms.ItemDragEventHandler(this._tree2_ItemDrag);
 			// 
@@ -271,34 +292,39 @@ namespace SampleApp
 			// _tree
 			// 
 			this._tree.AllowDrop = true;
-			this._tree.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
-						| System.Windows.Forms.AnchorStyles.Left)
-						| System.Windows.Forms.AnchorStyles.Right)));
+			this._tree.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
 			this._tree.AutoRowHeight = true;
 			this._tree.BackColor = System.Drawing.SystemColors.Window;
 			this._tree.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center;
+			this._tree.ColumnHeaderHeight = 0;
 			this._tree.Cursor = System.Windows.Forms.Cursors.Default;
 			this._tree.DefaultToolTipProvider = null;
 			this._tree.DisplayDraggingNodes = true;
 			this._tree.DragDropMarkColor = System.Drawing.Color.Black;
+			this._tree.FullRowSelectActiveColor = System.Drawing.Color.Empty;
+			this._tree.FullRowSelectInactiveColor = System.Drawing.Color.Empty;
 			this._tree.LineColor = System.Drawing.SystemColors.ControlDark;
 			this._tree.LoadOnDemand = true;
 			this._tree.Location = new System.Drawing.Point(0, 0);
+			this._tree.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
 			this._tree.Model = null;
 			this._tree.Name = "_tree";
 			this._tree.NodeControls.Add(this._nodeCheckBox);
 			this._tree.NodeControls.Add(this._nodeStateIcon);
 			this._tree.NodeControls.Add(this._nodeTextBox);
+			this._tree.NodeFilter = null;
 			this._tree.SelectedNode = null;
 			this._tree.SelectionMode = Aga.Controls.Tree.TreeSelectionMode.MultiSameParent;
 			this._tree.ShowNodeToolTips = true;
-			this._tree.Size = new System.Drawing.Size(375, 223);
+			this._tree.Size = new System.Drawing.Size(560, 341);
 			this._tree.TabIndex = 0;
+			this._tree.ItemDrag += new System.Windows.Forms.ItemDragEventHandler(this._tree_ItemDrag);
 			this._tree.NodeMouseDoubleClick += new System.EventHandler<Aga.Controls.Tree.TreeNodeAdvMouseEventArgs>(this._tree_NodeMouseDoubleClick);
 			this._tree.SelectionChanged += new System.EventHandler(this._tree_SelectionChanged);
-			this._tree.DragOver += new System.Windows.Forms.DragEventHandler(this._tree_DragOver);
 			this._tree.DragDrop += new System.Windows.Forms.DragEventHandler(this._tree_DragDrop);
-			this._tree.ItemDrag += new System.Windows.Forms.ItemDragEventHandler(this._tree_ItemDrag);
+			this._tree.DragOver += new System.Windows.Forms.DragEventHandler(this._tree_DragOver);
 			// 
 			// _nodeCheckBox
 			// 
@@ -312,6 +338,7 @@ namespace SampleApp
 			// 
 			this._nodeStateIcon.LeftMargin = 1;
 			this._nodeStateIcon.ParentColumn = null;
+			this._nodeStateIcon.ScaleMode = Aga.Controls.Tree.ImageScaleMode.Clip;
 			// 
 			// _nodeTextBox
 			// 
@@ -321,10 +348,23 @@ namespace SampleApp
 			this._nodeTextBox.LeftMargin = 3;
 			this._nodeTextBox.ParentColumn = null;
 			// 
+			// enableButton
+			// 
+			this.enableButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+			this.enableButton.Location = new System.Drawing.Point(572, 294);
+			this.enableButton.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+			this.enableButton.Name = "enableButton";
+			this.enableButton.Size = new System.Drawing.Size(136, 35);
+			this.enableButton.TabIndex = 22;
+			this.enableButton.Text = "Toggle enabled";
+			this.enableButton.UseVisualStyleBackColor = true;
+			this.enableButton.Click += new System.EventHandler(this.ToggleEnabled);
+			// 
 			// SimpleExample
 			// 
-			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+			this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+			this.Controls.Add(this.enableButton);
 			this.Controls.Add(this.button3);
 			this.Controls.Add(this.btnCollNodes);
 			this.Controls.Add(this.btnCollNode);
@@ -342,8 +382,9 @@ namespace SampleApp
 			this.Controls.Add(this._clear);
 			this.Controls.Add(this._addRoot);
 			this.Controls.Add(this._tree);
+			this.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
 			this.Name = "SimpleExample";
-			this.Size = new System.Drawing.Size(572, 387);
+			this.Size = new System.Drawing.Size(858, 595);
 			((System.ComponentModel.ISupportInitialize)(this._fontSize)).EndInit();
 			this.ResumeLayout(false);
 			this.PerformLayout();
@@ -374,5 +415,6 @@ namespace SampleApp
         private System.Windows.Forms.Button btnCollNode;
 		private System.Windows.Forms.Button btnCollNodes;
 		private System.Windows.Forms.Button button3;
+		private System.Windows.Forms.Button enableButton;
 	}
 }
